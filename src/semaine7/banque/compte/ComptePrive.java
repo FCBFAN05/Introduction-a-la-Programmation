@@ -7,7 +7,7 @@ package semaine7.banque.compte;
 public class ComptePrive extends Compte {
     private final double taux = 0.01;
 
-    ComptePrive(double solde) {
+    public ComptePrive(double solde) {
         super(solde);
     }
 

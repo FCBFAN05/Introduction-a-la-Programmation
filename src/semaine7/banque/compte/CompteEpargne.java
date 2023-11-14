@@ -7,7 +7,7 @@ package semaine7.banque.compte;
 public class CompteEpargne extends Compte{
     private final double taux = 0.02;
 
-    CompteEpargne (double solde) {
+    public CompteEpargne(double solde) {
         super(solde);
     }
 
