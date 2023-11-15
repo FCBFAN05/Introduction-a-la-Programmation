@@ -4,6 +4,10 @@ package semaine7.supermarche;
  *	Date:        15/11/2023
  */
 
+import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Supermarche {
 
     public static void main(String[] args) {
@@ -63,14 +67,107 @@ public class Supermarche {
     }
 }
 
-class Article {
+class Achat {
+    private final Article article;
+    private final int quantity;
 
+    Achat(Article articleAchete, int quantity) {
+        this.article = articleAchete;
+        this.quantity = quantity;
+    }
+
+    public double totalPrize() {
+        return quantity * article.getPrix();
+    }
+
+    public void afficher() {
+        String description = article.getNom() + " : " + article.getPrix() + " x "
+                + this.quantity + " = " + totalPrize() + " Frs";
+        if (article.isAction()) {
+            System.out.println(description + " (1/2 prix)");
+        } else System.out.println(description);
+    }
+}
+
+class Article {
+    private final String nom;
+    private final double prix;
+    private final boolean action;
+
+    Article(String nom, double prix, boolean action) {
+        this.nom = nom;
+        this.prix = prix;
+        this.action = action;
+    }
+
+    public double getPrix() {
+        if (action) {
+            return this.prix * (1/2.0);
+        } else return this.prix;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public boolean isAction() {
+        return action;
+    }
 }
 
 class Caddie {
+    private final ArrayList<Achat> contenu;
 
+    Caddie() {
+        this.contenu = new ArrayList<Achat>();
+    }
+
+    public ArrayList<Achat> getContenu() {
+        return contenu;
+    }
+
+    public void remplir(Article article, int quantity) {
+        this.contenu.add(new Achat(article, quantity));
+    }
 }
 
 class Caisse {
+    private final int numero;
+    private double montantTotal;
 
+    Caisse(int numero, double montantDebut) {
+        this.numero = numero;
+        this.montantTotal = montantDebut;
+    }
+
+    public void scanner(Caddie caddie) {
+        System.out.println("=========================================");
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+
+        System.out.println("Caisse numéro " + this.numero);
+        System.out.println(); // Empty line
+
+        ArrayList<Achat> contenuCaddie = caddie.getContenu();
+        double montantPayer = 0.0;
+
+        for (Achat achat : contenuCaddie) {
+            achat.afficher();
+
+            montantPayer += achat.totalPrize();
+        }
+        this.montantTotal += montantPayer;
+
+        System.out.println(); // Empty line
+        System.out.println("Montant à payer : " + montantPayer + " Frs");
+        System.out.println("=========================================");
+    }
+
+    public void totalCaisse() {
+        System.out.printf("La caisse numéro %d a encaissé %.2f Frs aujourd'hui%n",
+                this.numero,
+                this.montantTotal);
+    }
 }
