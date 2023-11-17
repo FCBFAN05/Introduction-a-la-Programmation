@@ -5,6 +5,7 @@ package semaine8;
  */
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Direction {
     public static void main(String[] args) {
@@ -49,8 +50,12 @@ class University {
 
     private double getAverageYears() {
         int sumYear = 0;
+
+        if (persons.isEmpty()) return 0.0;
+
         for (PersonAtEPFL person : this.persons) {
-            sumYear += 2023 - person.getYearOfArrival();
+            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+            sumYear += currentYear - person.getYearOfArrival();
         }
         return sumYear / (double) this.persons.size();
     }
