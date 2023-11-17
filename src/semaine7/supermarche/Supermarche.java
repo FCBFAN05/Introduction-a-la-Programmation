@@ -77,41 +77,25 @@ class Achat {
     }
 
     public double totalPrize() {
-        return quantity * article.getPrix();
+        return quantity * article.prix();
     }
 
     public void afficher() {
-        String description = article.getNom() + " : " + article.getPrix() + " x "
+        String description = article.nom() + " : " + article.prix() + " x "
                 + this.quantity + " = " + totalPrize() + " Frs";
-        if (article.isAction()) {
+        if (article.action()) {
             System.out.println(description + " (1/2 prix)");
         } else System.out.println(description);
     }
 }
 
-class Article {
-    private final String nom;
-    private final double prix;
-    private final boolean action;
+record Article(String nom, double prix, boolean action) {
 
-    Article(String nom, double prix, boolean action) {
-        this.nom = nom;
-        this.prix = prix;
-        this.action = action;
-    }
-
-    public double getPrix() {
+    @Override
+    public double prix() {
         if (action) {
-            return this.prix * (1/2.0);
+            return this.prix * (1 / 2.0);
         } else return this.prix;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public boolean isAction() {
-        return action;
     }
 }
 
@@ -119,7 +103,7 @@ class Caddie {
     private final ArrayList<Achat> contenu;
 
     Caddie() {
-        this.contenu = new ArrayList<Achat>();
+        this.contenu = new ArrayList<>();
     }
 
     public ArrayList<Achat> getContenu() {
