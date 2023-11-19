@@ -4,8 +4,6 @@ package semaine8;
  *	Date:        17/11/2023
  */
 
-import java.util.Arrays;
-
 // PROGRAMME PRINCIPAL (A NE PAS MODIFIER)
 public class Poste {
 
